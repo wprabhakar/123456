@@ -16,7 +16,7 @@ env:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: Walters-MBP
 
     steps:
     - uses: actions/checkout@v2
