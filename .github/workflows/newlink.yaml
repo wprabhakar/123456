@@ -3,12 +3,12 @@ name: newlink
 on:
   push:
     branches: [ main ]
-    paths:
-    - newlink
+#     paths:
+#     - newlink
   pull_request:
     branches: [ main ]
-    paths:
-    - newlink
+#     paths:
+#     - newlink
 
 env:
   CARGO_TERM_COLOR: always
