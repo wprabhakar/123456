@@ -1,0 +1,29 @@
+cargo add tokio serde serde_json lambda_runtime nanoid
+curl -X GET       'http://localhost:9000/lambda-url/shorturl'       -H 'content-type: application/json'       -d '{ "url": "test" }' -v
+
+curl https://sh.rustup.rs -sSf | sh
+brew tap cargo-lambda/cargo-lambda
+brew install cargo-lambda
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+cargo lambda build --release --arm64 --output-format zip
+
+cargo lambda build --release --arm64 --output-format zip
+
+aws lambda create-function --function-name rustTest \
+  --handler bootstrap \
+  --zip-file fileb://./target/lambda/basic/bootstrap.zip \
+  --runtime provided.al2 \ # Change this to provided.al if you would like to use Amazon Linux 1.
+  --role arn:aws:iam::XXXXXXXXXXXXX:role/your_lambda_execution_role \
+  --environment Variables={RUST_BACKTRACE=1} \
+  --tracing-config Mode=Active
+
+
+
+cargo build --release --target x86_64-unknown-linux-musl
+
+cargo lambda build --release --arm64
+cargo lambda build --release 
+
+cargo install cross
+/Users/uqapp/.cargo/bin/cross build --release --target x86_64-unknown-linux-musl
+zip -r9 -j bootstrap.zip ./target/x86_64-unknown-linux-gnu/release/bootstrap

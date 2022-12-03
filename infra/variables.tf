@@ -7,8 +7,21 @@ variable "service_name" {
 }
 
 # AWS region
-variable "region" {
+variable "aws_region" {
   type = string
   default = "ap-southeast-1"
 }
 
+variable "fetchurl_path" {
+  description = "The path for the fetch lambda."
+
+  type    = string
+  default = "./shorturl/bootstrap"
+}
+
+variable "newlink_path" {
+  description = "The path for the newlink lambda."
+
+  type    = string
+  default = "../newlink/target/lambda/bootstrap/bootstrap"
+}

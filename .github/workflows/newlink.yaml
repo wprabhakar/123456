@@ -1,0 +1,43 @@
+name: newlink
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+    - newlink
+  pull_request:
+    branches: [ main ]
+    paths:
+    - newlink
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Rust
+      working-directory: ./newlink
+      run: curl https://sh.rustup.rs -sSf | sh
+    - name: Install Cargo Lambda
+      working-directory: ./newlink
+      run: pip3 install cargo-lambda
+    - name: Build
+      working-directory: ./newlink
+      run: cargo build --release
+    # - name: Upload S3    
+    #   working-directory: ./newlink
+    #   uses: shallwefootball/s3-upload-action@master
+    #   id: S3
+    #   with:
+    #     aws_key_id: ${{secrets.AWS_KEY_ID}}
+    #     aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+    #     aws_bucket: newlink
+    #     source_dir: target/release/newlink
+    # - name: Link To Report
+    #   run: echo "https://s3.amazonaws.com/newlink/${{steps.S3.outputs.object_key}}"
+
