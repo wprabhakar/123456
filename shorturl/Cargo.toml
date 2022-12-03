@@ -1,0 +1,12 @@
+[package]
+name = "shorturl-api"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+lambda_runtime = "0.7.1"
+serde = "1.0.148"
+serde_json = "1.0.89"
+tokio = "1.22.0"

@@ -1,0 +1,2 @@
+cargo add tokio serde serde_json lambda_runtime
+curl -X GET       'http://localhost:9000/lambda-url/shorturl'       -H 'content-type: application/json'       -d '{ "url": "test" }' -v
