@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-   bucket = var.terraform_state_bucket
+   bucket = "waltergun51-terraform-remote-state-one"
    key = "shorturl"
-   region = var.aws_region
+   region = "ap-southeast-1"
   }
   required_providers {
    aws = {

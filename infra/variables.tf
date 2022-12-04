@@ -25,8 +25,3 @@ variable "newlink_path" {
   type    = string
   default = "../newlink/target/lambda/bootstrap/bootstrap"
 }
-
-variable "terraform_state_bucket" {
-    type    = string
-    default = "waltergun51-terraform-remote-state-one"
-}
