@@ -18,6 +18,13 @@ permissions:
   pull-requests: write
 
 jobs:
+  paths-filter:
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.filter.outputs.workflows }}
+    # run only if 'workflows' files were changed
+  run: ...
+
   build_newlink:
     runs-on: ubuntu-22.04
     defaults:
@@ -25,12 +32,21 @@ jobs:
         shell: bash
         working-directory: ./newlink    
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          src:
+            - './**'
     - name: Install Rust
+      if: steps.changes.outputs.src == 'true'
       run: curl https://sh.rustup.rs -sSf | sh -s -- -y
     - name: Install Cargo Lambda
+      if: steps.changes.outputs.src == 'true'
       run: pip3 install cargo-lambda 
     - name: Build
+      if: steps.changes.outputs.src == 'true'
       run: cargo lambda build --release
   deploy:
     needs: [ build_newlink ]
@@ -42,6 +58,12 @@ jobs:
         working-directory: ./infra    
     steps:
     - uses: actions/checkout@v3
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          src:
+            - './**'
     - uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: 1.3.6
