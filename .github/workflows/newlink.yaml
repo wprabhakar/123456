@@ -32,7 +32,7 @@ jobs:
           newlink:
             - 'newlink/**'
   newlink:
-    needs: changes
+    needs: [ changes ]
     if: ${{ needs.changes.outputs.newlink == 'true' }}
     name: Build newlink
     runs-on: ubuntu-22.04
@@ -50,8 +50,9 @@ jobs:
       run: cargo lambda build --release
 
   infra:
-    needs: [ changes ]
-    if: ${{ needs.changes.outputs.infra == 'true' }}
+    needs: [ changes, newlink ]
+    if: |
+      ${{  always() && ( needs.changes.outputs.infra == 'true' || needs.changes.outputs.newlink == 'true' ) }}
     name: Deploy Lambda
     runs-on: ubuntu-latest
     defaults:
