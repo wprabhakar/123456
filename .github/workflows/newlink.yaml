@@ -21,7 +21,7 @@ jobs:
       infra_changed: ${{ steps.filter.outputs.infra }}
       newlink_changed: ${{ steps.filter.outputs.newlink }}
     steps:
-    # - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
     # For pull requests it's not necessary to checkout the code
     - uses: dorny/paths-filter@v2
       id: filter
@@ -36,10 +36,9 @@ jobs:
     if: ${{ needs.changes.outputs.newlink_changed == 'true' }}
     name: Build newlink
     runs-on: ubuntu-22.04
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./newlink    
+    # defaults:
+    #   run:
+    #     shell: bash
     steps:
     - uses: actions/checkout@v2
     - name: Install Rust
@@ -47,6 +46,7 @@ jobs:
     - name: Install Cargo Lambda
       run: pip3 install cargo-lambda 
     - name: Build
+      working-directory: ./newlink    
       run: cargo lambda build --release
 
   infra:
