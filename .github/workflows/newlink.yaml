@@ -10,6 +10,7 @@ env:
   CARGO_TERM_COLOR: always
   AWS_ACCESS_KEY_ID: $${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: $${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+  BUCKET_TF_STATE: $${{ secrets.BUCKET_TF_STATE }}
 
 permissions:
   contents: read
@@ -69,7 +70,7 @@ jobs:
         terraform_wrapper: false            
     - name: Terraform Init
       id: init
-      run: terraform init   
+      run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
     - name: Terraform Plan
       id: plan
       run: terraform plan -no-color

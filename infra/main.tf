@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-   bucket = "waltergun51-terraform-remote-state-one"
+  #  bucket = "waltergun51-terraform-remote-state-one"
    key = "shorturl"
    region = "ap-southeast-1"
   }
@@ -14,7 +14,7 @@ terraform {
 
 provider "aws" {
   region = var.aws_region
-  shared_credentials_files = ["$HOME/.aws/credentials"]
+  # shared_credentials_files = ["$HOME/.aws/credentials"]
 }
 
 
