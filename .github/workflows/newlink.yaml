@@ -21,7 +21,7 @@ jobs:
       infra_changed: ${{ steps.filter.outputs.infra }}
       newlink_changed: ${{ steps.filter.outputs.newlink }}
     steps:
-    - uses: actions/checkout@v2
+    # - uses: actions/checkout@v2
     # For pull requests it's not necessary to checkout the code
     - uses: dorny/paths-filter@v2
       id: filter
