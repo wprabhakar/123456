@@ -27,3 +27,15 @@ cargo lambda build --release
 cargo install cross
 /Users/uqapp/.cargo/bin/cross build --release --target x86_64-unknown-linux-musl
 zip -r9 -j bootstrap.zip ./target/x86_64-unknown-linux-gnu/release/bootstrap
+
+
+curl -X POST https://mbmzl9efbh.execute-api.ap-southeal": "http://google.com"}'  -H 'Content-Type: application/json'
+
+
+Create Bucket to store terraform state file
+https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+aws s3api create-bucket --create-bucket-configuration LocationConstraint=ap-southeast-1 --bucket waltergun51-terraform-remote-state-one
+{
+    "Location": "http://waltergun51-terraform-remote-state-one.s3.amazonaws.com/"
+}
+

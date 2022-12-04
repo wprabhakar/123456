@@ -1,11 +1,16 @@
 terraform {
-
  required_providers {
+   bucket = "$(terraform_state_bucket)"
+   key = "shorturl"
+   region = var.aws_region
+ }
    aws = {
      source = "hashicorp/aws"
    }
  }
+ waltergun51-terraform-remote-state-one
 }
+
 provider "aws" {
   region = var.aws_region
   shared_credentials_files = ["$HOME/.aws/credentials"]
