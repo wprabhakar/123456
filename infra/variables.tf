@@ -28,5 +28,5 @@ variable "newlink_path" {
 
 variable "terraform_state_bucket" {
     type    = string
-    value   = "waltergun51-terraform-remote-state-one"
+    default = "waltergun51-terraform-remote-state-one"
 }

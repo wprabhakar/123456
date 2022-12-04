@@ -1,14 +1,14 @@
 terraform {
- required_providers {
-   bucket = "$(terraform_state_bucket)"
-   key = "shorturl"
-   region = var.aws_region
- }
+  # backend "s3" {
+  #  bucket = var.erraform_state_bucket
+  #  key = "shorturl"
+  #  region = var.aws_region
+  # }
+  required_providers {
    aws = {
      source = "hashicorp/aws"
    }
- }
- waltergun51-terraform-remote-state-one
+  }
 }
 
 provider "aws" {
