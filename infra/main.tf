@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-   bucket = var.erraform_state_bucket
+   bucket = var.terraform_state_bucket
    key = "shorturl"
    region = var.aws_region
   }
