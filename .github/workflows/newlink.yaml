@@ -22,9 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       output1: ${{ steps.filter.outputs.workflows }}
-    # run only if 'workflows' files were changed
-  run: ...
-
   build_newlink:
     runs-on: ubuntu-22.04
     defaults:
