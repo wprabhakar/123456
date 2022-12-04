@@ -27,7 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install Rust
-      run: curl -y https://sh.rustup.rs -sSf | sh
+      run: curl https://sh.rustup.rs -sSf | sh -s -- -y
     - name: Install Cargo Lambda
       run: pip3 install cargo-lambda -y
     - name: Build
