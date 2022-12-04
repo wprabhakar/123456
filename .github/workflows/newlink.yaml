@@ -3,12 +3,8 @@ name: newlink
 on:
   push:
     branches: [ main ]
-#     paths:
-#     - newlink
   pull_request:
     branches: [ main ]
-#     paths:
-#     - newlink
 
 env:
   CARGO_TERM_COLOR: always
@@ -24,9 +20,10 @@ jobs:
       pull-requests: read
     # Set job outputs to values from filter step
     outputs:
-      backend: ${{ steps.filter.outputs.infra }}
-      frontend: ${{ steps.filter.outputs.newlink }}
+      infra_changed: ${{ steps.filter.outputs.infra }}
+      newlink_changed: ${{ steps.filter.outputs.newlink }}
     steps:
+    - uses: actions/checkout@v3
     # For pull requests it's not necessary to checkout the code
     - uses: dorny/paths-filter@v2
       id: filter
@@ -38,7 +35,7 @@ jobs:
             - 'newlink/**'
   newlink:
     needs: changes
-    if: ${{ needs.changes.outputs.newlink == 'true' }}
+    if: ${{ needs.changes.outputs.newlink_changed == 'true' }}
     name: Build newlink
     runs-on: ubuntu-22.04
     defaults:
@@ -56,7 +53,7 @@ jobs:
 
   infra:
     needs: [ changes, newlink ]
-    if: ${{ needs.changes.outputs.infra == 'true' }}
+    if: ${{ needs.changes.outputs.infra_changed == 'true' }}
     name: Deploy Lambda
     runs-on: ubuntu-latest
     defaults:
