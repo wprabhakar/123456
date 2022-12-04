@@ -71,6 +71,9 @@ jobs:
     - name: Terraform Init
       id: init
       run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+      env:
+        AWS_ACCESS_KEY_ID: $${{ secrets.S3_AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: $${{ secrets.S3_AWS_SECRET_ACCESS_KEY }} 
     - name: Terraform Plan
       id: plan
       run: terraform plan -no-color
