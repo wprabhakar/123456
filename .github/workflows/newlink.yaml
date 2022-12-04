@@ -50,7 +50,7 @@ jobs:
       run: cargo lambda build --release
 
   infra:
-    needs: [ changes, newlink ]
+    needs: [ changes ]
     if: ${{ needs.changes.outputs.infra == 'true' }}
     name: Deploy Lambda
     runs-on: ubuntu-latest
