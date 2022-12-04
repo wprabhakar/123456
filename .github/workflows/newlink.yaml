@@ -23,7 +23,7 @@ jobs:
       infra_changed: ${{ steps.filter.outputs.infra }}
       newlink_changed: ${{ steps.filter.outputs.newlink }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     # For pull requests it's not necessary to checkout the code
     - uses: dorny/paths-filter@v2
       id: filter
@@ -43,7 +43,7 @@ jobs:
         shell: bash
         working-directory: ./newlink    
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     - name: Install Rust
       run: curl https://sh.rustup.rs -sSf | sh -s -- -y
     - name: Install Cargo Lambda
@@ -61,7 +61,7 @@ jobs:
         shell: bash
         working-directory: ./infra    
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     - uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: 1.3.6
