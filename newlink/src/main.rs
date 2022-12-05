@@ -32,9 +32,9 @@ async fn newlink(event: LambdaEvent<serde_json::Value>) -> Result<Output, Error>
     let body = payload["body"].as_str().unwrap() ;
     let input = serde_json::from_str::<ShortURLs>(body).unwrap() ;
     let url = format!("url {}", input.url);
-    let shortenUrl = format!("{}", nanoid!(9, &ALPHA_NUMERIC));
+    let short_url = format!("{}", nanoid!(9, &ALPHA_NUMERIC));
     Ok(Output {
         url: url,
-        shortenUrl: shortenUrl,
+        shortenUrl: short_url,
     })
 }

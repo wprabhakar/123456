@@ -23,5 +23,6 @@ variable "newlink_path" {
   description = "The path for the newlink lambda."
 
   type    = string
-  default = "../newlink/target/lambda/bootstrap/bootstrap"
+  default = "newlink/bootstrap"
+  # default = "../newlink/target/lambda/bootstrap/bootstrap"
 }
