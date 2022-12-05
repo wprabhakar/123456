@@ -29,7 +29,7 @@ resource "aws_s3_object" "newlink_folder" {
   key    = "newlink/"
 }
 
-data "aws_s3_bucket_object" "newlink_sha256" {
+resource "aws_s3_object" "newlink_sha256" {
   bucket = aws_s3_bucket.lambda_bucket.id
   key    = "newlink/bootstrap"
 #  etag     = filemd5("newlink/bootstrap")
@@ -44,7 +44,7 @@ resource "aws_lambda_function" "newlink_lambda" {
   memory_size = 128
   # source_code_hash = data.archive_file.lambda_newlink_archive.output_base64sha256
   # filename         = data.archive_file.lambda_newlink_archive.output_path
-  source_code_hash = "${data.aws_s3_object.newlink_sha256.etag}"
+  source_code_hash = aws_s3_object.newlink_sha256.etag
   # s3_object_version = data.aws_s3_object.newlink_sha256.version_id
 
   handler = "bootstrap"
