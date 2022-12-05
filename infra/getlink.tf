@@ -29,11 +29,11 @@ resource "aws_s3_object" "getlink_folder" {
   key    = "getlink/"
 }
 
-# data "aws_s3_bucket_object" "getlink_sha256" {
-#   bucket = aws_s3_bucket.lambda_bucket.id
-#   key    = "getlink"
-#   source = "bootstrap"
-# }
+data "aws_s3_bucket_object" "getlink_sha256" {
+  bucket = aws_s3_bucket.lambda_bucket.id
+  key    = "getlink"
+  source = "bootstrap"
+}
 
 resource "aws_lambda_function" "getlink_lambda" {
   depends_on = [
@@ -42,7 +42,7 @@ resource "aws_lambda_function" "getlink_lambda" {
   function_name = "getlink"
   memory_size = 128
 
-#  s3_object_version = data.aws_s3_object.getlink_sha256.version_id
+  s3_object_version = data.aws_s3_object.getlink_sha256.version_id
   handler = "bootstrap"
   runtime = "provided.al2"
 

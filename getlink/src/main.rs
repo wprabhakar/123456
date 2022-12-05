@@ -12,7 +12,6 @@ async fn getlink(event: LambdaEvent<serde_json::Value>) -> Result<serde_json::Va
     Ok(json!({
         "statusCode": 302,
         "headers": { "location": "http://www.google.com", "content-type": "text/html" },
-        // is_base64_encoded: false,
     }))
 }
 
