@@ -12,7 +12,7 @@ resource "aws_apigatewayv2_integration" "getlink_integration" {
 
 resource "aws_apigatewayv2_route" "getlink_route" {
   api_id    = aws_apigatewayv2_api.shorturl_api.id
-  route_key = "POST /getlink"
+  route_key = "GET /{id}"
   target    = "integrations/${aws_apigatewayv2_integration.getlink_integration.id}"
 }
 
