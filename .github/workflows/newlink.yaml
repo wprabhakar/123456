@@ -23,8 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     # Set job outputs to values from filter step
     outputs:
-      infra: ${{ steps.filter.outputs.infra }}
-      newlink: ${{ steps.filter.outputs.newlink }}
+      infra: ${{ steps.filter.outputs.infra || steps.filter.outputs.workflow }}
+      newlink: ${{ steps.filter.outputs.newlink || steps.filter.outputs.workflow }}
     steps:
     - uses: actions/checkout@v3
     # For pull requests it's not necessary to checkout the code
@@ -36,6 +36,8 @@ jobs:
             - 'infra/**'
           newlink:
             - 'newlink/**'
+          workflow:
+            - '**/newlink.yaml'
   newlink:
     needs: [ changes ]
     if: ${{ needs.changes.outputs.newlink == 'true' }}
