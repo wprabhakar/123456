@@ -27,11 +27,22 @@ resource "aws_lambda_permission" "newlink_api_permission" {
 resource "aws_s3_object" "newlink_folder" {
   bucket = aws_s3_bucket.lambda_bucket.id
   key    = "newlink/"
-  # content_type = "application/x-directory"
 }
 
-# resource "aws_s3_bucket_object" "newlink_folder" {
-#     bucket = aws_s3_bucket.lambda_bucket.id
-#     key    = "newlink/"
-#     content_type = "application/x-directory"
-# }
+resource "aws_lambda_function" "newlink_lambda" {
+  depends_on = [
+    aws_s3_object.newlink_folder
+  ]
+  function_name = "newlink"
+  memory_size = 128
+  # source_code_hash = data.archive_file.lambda_newlink_archive.output_base64sha256
+  # filename         = data.archive_file.lambda_newlink_archive.output_path
+
+  handler = "bootstrap"
+  runtime = "provided.al2"
+
+  s3_bucket = aws_s3_bucket.lambda_bucket.id
+  s3_key    = "newlink/bootstrap"
+
+  role = aws_iam_role.iam_for_lambda.arn
+}

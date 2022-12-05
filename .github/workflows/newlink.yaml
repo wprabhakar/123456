@@ -23,8 +23,9 @@ jobs:
     runs-on: ubuntu-latest
     # Set job outputs to values from filter step
     outputs:
-      infra: ${{ steps.filter.outputs.infra || steps.filter.outputs.workflow }}
-      newlink: ${{ steps.filter.outputs.newlink || steps.filter.outputs.workflow }}
+      infra: ${{ steps.filter.outputs.infra }}
+      newlink: ${{ steps.filter.outputs.newlink }}
+      getlink: ${{ steps.filter.outputs.getlink }}
     steps:
     - uses: actions/checkout@v3
     # For pull requests it's not necessary to checkout the code
@@ -38,6 +39,8 @@ jobs:
             - 'newlink/**'
           workflow:
             - '**/newlink.yaml'
+          getlink:
+            - 'getlink/**'
   newlink:
     needs: [ changes ]
     if: ${{ needs.changes.outputs.newlink == 'true' }}
@@ -55,13 +58,34 @@ jobs:
     - name: Build
       working-directory: ./newlink    
       run: cargo lambda build --release
-    - name: Copy files to the test website with the AWS CLI
+    - name: Copy bootstrap to S3
+      working-directory: ./newlink/target/lambda/bootstrap    
       run: |
-        cd newlink/target/lambda/bootstrap && zip bootstrap.zip bootstrap 
+        zip bootstrap.zip bootstrap 
         aws s3 cp bootstrap.zip s3://shorurls-api-rust/newlink/bootstrap
 
+  getlink:
+    needs: [ changes ]
+    if: ${{ needs.changes.outputs.getlink == 'true' }}
+    name: Build getlink
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install Rust
+      run: curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - name: Install Cargo Lambda
+      run: pip3 install cargo-lambda 
+    - name: Build
+      working-directory: ./getlink    
+      run: cargo lambda build --release
+    - name: Copy bootstrap to S3
+      working-directory: ./getlink/target/lambda/bootstrap\
+      run: |
+        zip bootstrap.zip bootstrap 
+        aws s3 cp bootstrap.zip s3://shorurls-api-rust/getlink/bootstrap
+
   infra:
-    needs: [ changes, newlink ]
+    needs: [ changes, newlink, getlink ]
     if: |
       ${{  always() && ( needs.changes.outputs.infra == 'true' || needs.changes.outputs.newlink == 'true' ) }}
     name: Deploy Lambda

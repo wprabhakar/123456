@@ -1,33 +1,46 @@
-# data "archive_file" "lambda_newlink_archive" {
-#   type = "zip"
 
-#   source_file = "${var.newlink_path}"   
-#   output_path = "bootstrap"
-# }
+resource "aws_iam_role" "iam_for_lambda" {
+ name = "iam_for_lambda"
 
-resource "aws_lambda_function" "newlink_lambda" {
-  depends_on = [
-    aws_s3_object.newlink_folder
-  ]
-  function_name = "newlink"
-  memory_size = 128
-  # source_code_hash = data.archive_file.lambda_newlink_archive.output_base64sha256
-  # filename         = data.archive_file.lambda_newlink_archive.output_path
-
-  handler = "bootstrap"
-  runtime = "provided.al2"
-
-  s3_bucket = aws_s3_bucket.lambda_bucket.id
-  s3_key    = "newlink/bootstrap"
-
-  role = aws_iam_role.iam_for_lambda.arn
+ assume_role_policy = jsonencode({
+   "Version" : "2012-10-17",
+   "Statement" : [
+     {
+       "Effect" : "Allow",
+       "Principal" : {
+         "Service" : "lambda.amazonaws.com"
+       },
+       "Action" : "sts:AssumeRole"
+     }
+   ]
+  })
+}
+          
+resource "aws_iam_role_policy_attachment" "lambda_policy" {
+   role = aws_iam_role.iam_for_lambda.name
+   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+          
+resource "aws_iam_role_policy" "dynamodb-lambda-policy" {
+   name = "dynamodb_lambda_write_policy"
+   role = aws_iam_role.iam_for_lambda.id
+   policy = jsonencode({
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+           "Effect" : "Allow",
+           "Action" : ["dynamodb:*"],
+           "Resource" : "${aws_dynamodb_table.shorturls_table.arn}"
+        }
+      ]
+   })
 }
 
+resource "aws_s3_bucket" "lambda_bucket" {
+ bucket = "shorurls-api-rust"
+}
 
-# aws lambda create-function --function-name rustTest \
-#   --handler bootstrap \
-#   --zip-file fileb://./target/lambda/basic/bootstrap.zip \
-#   --runtime provided.al2 \ # Change this to provided.al if you would like to use Amazon Linux 1.
-#   --role arn:aws:iam::XXXXXXXXXXXXX:role/your_lambda_execution_role \
-#   --environment Variables={RUST_BACKTRACE=1} \
-#   --tracing-config Mode=Active
+resource "aws_s3_bucket_acl" "bucket_acl" {
+  bucket = aws_s3_bucket.lambda_bucket.id
+  acl    = "private"
+}
