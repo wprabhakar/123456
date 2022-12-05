@@ -32,7 +32,7 @@ async fn main() -> Result<(), Error> {
 
 async fn newlink(request: Request) -> Result<serde_json::Value, Error>{
     let input: ShortURLs = request.payload().unwrap_or_else(|_parse_err| None).unwrap_or_default();
-    print!("Input {:?}", input);
+    print!("***Input {:?}", input);
     if input.url.is_empty() == true {
         Ok(json!({
             "statusCode": 400,
