@@ -74,7 +74,7 @@ jobs:
       working-directory: ./getlink    
       run: cargo lambda build --release
     - name: Copy bootstrap to S3
-      working-directory: ./getlink/target/lambda/bootstrap\
+      working-directory: ./getlink/target/lambda/bootstrap
       run: |
         zip bootstrap.zip bootstrap 
         aws s3 cp bootstrap.zip s3://shorurls-api-rust/getlink/bootstrap
