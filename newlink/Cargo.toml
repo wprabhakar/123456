@@ -13,5 +13,5 @@ serde_json = "1.0.89"
 tokio = "1.22.0"
 
 [[bin]]
-name = "bootstrap"
+name = "newlink"
 path = "src/main.rs"

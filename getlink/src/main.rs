@@ -10,9 +10,9 @@ async fn getlink(event: LambdaEvent<serde_json::Value>) -> Result<serde_json::Va
     let ( payload, _context )  = event.into_parts(); 
     print!("Payload  {}!", payload);
     Ok(json!({
-        "statusCode": 301,
-        "headers": { "location": "http://www.google.com", "content-type", "text/html" },
-        is_base64_encoded: false,
+        "statusCode": 302,
+        "headers": { "location": "http://www.google.com", "content-type": "text/html" },
+        // is_base64_encoded: false,
     }))
 }
 
