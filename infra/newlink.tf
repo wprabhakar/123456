@@ -31,8 +31,7 @@ resource "aws_s3_object" "newlink_folder" {
 
 data "aws_s3_bucket_object" "newlink_sha256" {
   bucket = aws_s3_bucket.lambda_bucket.id
-  key    = "newlink"
-  source = "bootstrap"
+  key    = "newlink/bootstrap"
 }
 
 resource "aws_lambda_function" "newlink_lambda" {

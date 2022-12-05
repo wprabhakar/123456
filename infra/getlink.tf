@@ -31,8 +31,7 @@ resource "aws_s3_object" "getlink_folder" {
 
 data "aws_s3_bucket_object" "getlink_sha256" {
   bucket = aws_s3_bucket.lambda_bucket.id
-  key    = "getlink"
-  source = "bootstrap"
+  key    = "getlink/bootstrap"
 }
 
 resource "aws_lambda_function" "getlink_lambda" {
