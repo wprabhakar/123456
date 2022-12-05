@@ -57,8 +57,8 @@ jobs:
       run: cargo lambda build --release
     - name: Copy files to the test website with the AWS CLI
       run: |
-        ls -al 
-        aws s3 cp newlink/target/lambda/bootstrap/bootstrap s3://shorurls-api-rust/newlink/bootstrap
+        zip bootstrap.zip newlink/target/lambda/bootstrap/bootstrap 
+        aws s3 cp bootstrap.zip s3://shorurls-api-rust/newlink/bootstrap
 
   infra:
     needs: [ changes, newlink ]
@@ -78,7 +78,7 @@ jobs:
         terraform_wrapper: false            
     - name: Terraform Init
       id: init
-      run: terraform init -input=false
+      run: terraform init
     - name: Terraform Plan
       id: plan
       run: terraform plan -no-color
