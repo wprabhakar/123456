@@ -9,9 +9,7 @@ use serde::{Serialize, Deserialize};
 //     let input = serde_json::from_str::<ShortURLs>(body).unwrap() ;
 //     let url = format!("url {}", input.url);
 //     let short_url = format!("{}", nanoid!(9, &ALPHA_NUMERIC));
-//     Ok(Output {
-//         url: url,
-//         shortenUrl: short_url,
+
 //     })
 // }
 
