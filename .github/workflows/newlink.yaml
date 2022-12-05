@@ -57,7 +57,7 @@ jobs:
       run: cargo lambda build --release
     - name: Copy files to the test website with the AWS CLI
       run: |
-        zip bootstrap.zip newlink/target/lambda/bootstrap/bootstrap 
+        cd newlink/target/lambda/bootstrap && zip bootstrap.zip bootstrap 
         aws s3 cp bootstrap.zip s3://shorurls-api-rust/newlink/bootstrap
 
   infra:
