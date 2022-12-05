@@ -40,6 +40,14 @@ resource "aws_s3_bucket" "lambda_bucket" {
  bucket = "shorurls-api-rust"
 }
 
+resource "aws_s3_bucket_versioning" "lambda_bucket_versioning" {
+  bucket = aws_s3_bucket.lambda_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_acl" "bucket_acl" {
   bucket = aws_s3_bucket.lambda_bucket.id
   acl    = "private"

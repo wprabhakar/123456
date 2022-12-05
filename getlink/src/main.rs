@@ -8,7 +8,7 @@ type LambdaResult<T> = Result<T, LambdaError>;
  
 async fn getlink(event: LambdaEvent<serde_json::Value>) -> Result<serde_json::Value, lambda_runtime::Error> {
     let ( payload, _context )  = event.into_parts(); 
-    print!("****Payload  {}!", payload);
+    print!("**Payload  {}!", payload);
     Ok(json!({
         "statusCode": 302,
         "headers": { "location": "http://www.google.com", "content-type": "text/html" },
