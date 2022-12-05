@@ -1,12 +1,14 @@
 use lambda_runtime::{LambdaEvent, Error};
 use serde::{Serialize, Deserialize};
 use nanoid::nanoid;
+use serde_json::{json};
 
-#[derive(Serialize)]
-struct Output {
-    url: String,
-    shortenUrl: String
-}
+// #[derive(Serialize)]
+// struct Output {
+//     url: String,
+//     shortenUrl: String
+// }
+
 #[derive(Debug, Serialize, Deserialize)]
 struct ShortURLs {
     url: String,
@@ -26,15 +28,32 @@ async fn main() -> Result<(), Error> {
     Ok(())
 }
 
-async fn newlink(event: LambdaEvent<serde_json::Value>) -> Result<Output, Error> {
+async fn newlink(event: LambdaEvent<serde_json::Value>) -> Result<serde_json::Value, lambda_runtime::Error>{
     let ( payload, _context )  = event.into_parts(); 
     print!("Payload {}!", payload);
     let body = payload["body"].as_str().unwrap() ;
     let input = serde_json::from_str::<ShortURLs>(body).unwrap() ;
     let url = format!("url {}", input.url);
     let short_url = format!("{}", nanoid!(9, &ALPHA_NUMERIC));
-    Ok(Output {
-        url: url,
-        shortenUrl: short_url,
-    })
+    Ok(json!({
+        "statusCode": 200,
+        "body": { "shortenUrl": short_url },
+    }))
+    //     Ok(Output {
+    //     url: url,
+    //     shortenUrl: short_url,
+    // })
 }
+
+// async fn newlink(event: LambdaEvent<serde_json::Value>) -> Result<Output, Error> {
+//     let ( payload, _context )  = event.into_parts(); 
+//     print!("Payload {}!", payload);
+//     let body = payload["body"].as_str().unwrap() ;
+//     let input = serde_json::from_str::<ShortURLs>(body).unwrap() ;
+//     let url = format!("url {}", input.url);
+//     let short_url = format!("{}", nanoid!(9, &ALPHA_NUMERIC));
+//     Ok(Output {
+//         url: url,
+//         shortenUrl: short_url,
+//     })
+// }

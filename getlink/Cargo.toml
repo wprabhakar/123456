@@ -15,9 +15,16 @@ edition = "2021"
 # and it will keep the alphabetic ordering for you.
 
 [dependencies]
+http = "0.2.8"
+lambda-apigateway-response = "0.1.1"
 lambda_http = { version = "0.7", default-features = false, features = ["apigw_http"] }
 lambda_runtime = "0.7"
+serde = "1.0.148"
+serde_json = "1.0.89"
 tokio = { version = "1", features = ["macros"] }
 tracing = { version = "0.1", features = ["log"] }
 tracing-subscriber = { version = "0.3", default-features = false, features = ["fmt"] }
 
+[[bin]]
+name = "bootstrap"
+path = "src/main.rs"

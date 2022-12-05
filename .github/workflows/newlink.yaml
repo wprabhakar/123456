@@ -37,8 +37,6 @@ jobs:
             - 'infra/**'
           newlink:
             - 'newlink/**'
-          workflow:
-            - '**/newlink.yaml'
           getlink:
             - 'getlink/**'
   newlink:
@@ -46,9 +44,6 @@ jobs:
     if: ${{ needs.changes.outputs.newlink == 'true' }}
     name: Build newlink
     runs-on: ubuntu-22.04
-    # defaults:
-    #   run:
-    #     shell: bash
     steps:
     - uses: actions/checkout@v3
     - name: Install Rust
