@@ -23,3 +23,15 @@ resource "aws_lambda_permission" "newlink_api_permission" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.shorturl_api.execution_arn}/*/*/${split("/", aws_apigatewayv2_route.newlink_route.route_key)[1]}"
 }
+
+resource "aws_s3_object" "newlink_folder" {
+  bucket = aws_s3_bucket.lambda_bucket.id
+  key    = "newlink/"
+  # content_type = "application/x-directory"
+}
+
+# resource "aws_s3_bucket_object" "newlink_folder" {
+#     bucket = aws_s3_bucket.lambda_bucket.id
+#     key    = "newlink/"
+#     content_type = "application/x-directory"
+# }

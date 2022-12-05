@@ -19,10 +19,10 @@ variable "fetchurl_path" {
   default = "./shorturl/bootstrap"
 }
 
-variable "newlink_path" {
-  description = "The path for the newlink lambda."
+# variable "newlink_path" {
+#   description = "The path for the newlink lambda."
 
-  type    = string
-  default = "newlink/bootstrap"
-  # default = "../newlink/target/lambda/bootstrap/bootstrap"
-}
+#   type    = string
+#   default = "newlink/bootstrap"
+#   # default = "../newlink/target/lambda/bootstrap/bootstrap"
+# }

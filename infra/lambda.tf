@@ -1,11 +1,14 @@
-data "archive_file" "lambda_newlink_archive" {
-  type = "zip"
+# data "archive_file" "lambda_newlink_archive" {
+#   type = "zip"
 
-  source_file = "${var.newlink_path}"   
-  output_path = "bootstrap"
-}
+#   source_file = "${var.newlink_path}"   
+#   output_path = "bootstrap"
+# }
 
 resource "aws_lambda_function" "newlink_lambda" {
+  depends_on = [
+    aws_s3_object.newlink_folder
+  ]
   function_name = "newlink"
   memory_size = 128
   # source_code_hash = data.archive_file.lambda_newlink_archive.output_base64sha256
