@@ -32,12 +32,13 @@ resource "aws_s3_object" "newlink_folder" {
 data "aws_s3_bucket_object" "newlink_sha256" {
   bucket = aws_s3_bucket.lambda_bucket.id
   key    = "newlink/bootstrap"
-  etag     = filemd5("newlink/bootstrap")
+#  etag     = filemd5("newlink/bootstrap")
 }
 
 resource "aws_lambda_function" "newlink_lambda" {
   depends_on = [
     aws_s3_object.newlink_folder
+    newlink_sha256
   ]
   function_name = "newlink"
   memory_size = 128

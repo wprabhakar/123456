@@ -32,13 +32,14 @@ resource "aws_s3_object" "getlink_folder" {
 data "aws_s3_object" "getlink_sha256" {
   bucket = aws_s3_bucket.lambda_bucket.id
   key    = "getlink/bootstrap"
-  etag     = filemd5("getlink/bootstrap")
+  # etag     = filemd5("getlink/bootstrap")
   # source_hash = filebase64sha256("getlink/bootstrap")
 }
 
 resource "aws_lambda_function" "getlink_lambda" {
   depends_on = [
     aws_s3_object.getlink_folder
+    newlink_sha256
   ]
   function_name = "getlink"
   memory_size = 128
