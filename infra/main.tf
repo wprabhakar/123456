@@ -66,21 +66,8 @@ resource "aws_iam_role" "iam_for_lambda" {
          "Service" : "lambda.amazonaws.com"
        },
        "Action" : "sts:AssumeRole"
-     },
-    {
-      "Action": [
-        "s3:ListAllMyBuckets"
-      ],
-      "Effect": "Allow",
-      "Resource": "*"
-    },
-    {
-      "Action": [
-        "s3:*"
-      ],
-      "Effect": "Allow",
-      "Resource": "${aws_s3_bucket.bucket.arn}"
-    }   ]
+     }
+   ]
   })
 }
           
