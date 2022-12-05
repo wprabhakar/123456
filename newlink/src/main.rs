@@ -46,8 +46,8 @@ async fn newlink(request: Request) -> Result<serde_json::Value, Error>{
         let short_url = format!("{}", nanoid!(9, &ALPHA_NUMERIC));
         Ok(json!({
             "statusCode": 200,
-            "headers": { "content-type": "text/html" },
-            "body": { "url": input.url, "shorten_Url": short_url },
+            "headers": { "content-type": "application/json" },
+            "body": { "url": input.url, "shortenUrl": short_url },
         }))
    }
     //     Ok(Output {

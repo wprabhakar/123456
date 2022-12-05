@@ -29,10 +29,10 @@ resource "aws_s3_object" "getlink_folder" {
   key    = "getlink/"
 }
 
-data "aws_s3_bucket_object" "getlink_sha256" {
+data "aws_s3_object" "getlink_sha256" {
   bucket = aws_s3_bucket.lambda_bucket.id
   key    = "getlink/bootstrap"
-  etag     = filemd5("getlink/bootstrap")
+  # etag     = filemd5("getlink/bootstrap")
   # source_hash = filebase64sha256("getlink/bootstrap")
 }
 
