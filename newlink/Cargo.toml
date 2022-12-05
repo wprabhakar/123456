@@ -5,6 +5,7 @@ edition = "2021"
 #autobins = false
 
 [dependencies]
+lambda_http = "0.7.1"
 lambda_runtime = "0.7.1"
 nanoid = "0.4.0"
 serde = "1.0.148"

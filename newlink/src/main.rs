@@ -1,4 +1,5 @@
-use lambda_runtime::{LambdaEvent, Error};
+//use lambda_runtime::{LambdaEvent, Error};
+use lambda_http::{service_fn, Error, Context, Body, IntoResponse, Request, Response, RequestExt};
 use serde::{Serialize, Deserialize};
 use nanoid::nanoid;
 use serde_json::{json};
@@ -9,8 +10,9 @@ use serde_json::{json};
 //     shortenUrl: String
 // }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize, Default)]
 struct ShortURLs {
+    #[serde(default)]
     url: String,
 }
 
@@ -23,21 +25,23 @@ pub const ALPHA_NUMERIC: [char; 62] = [
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    let handler = lambda_runtime::service_fn(newlink);
-    lambda_runtime::run(handler).await?;
+    let handler = lambda_http::service_fn(newlink);
+    lambda_http::run(handler).await?;
     Ok(())
 }
 
-async fn newlink(event: LambdaEvent<serde_json::Value>) -> Result<serde_json::Value, lambda_runtime::Error>{
-    let ( payload, _context )  = event.into_parts(); 
-    print!(" Payload {}!", payload);
-    let body = payload["body"].as_str().unwrap() ;
-    let input = serde_json::from_str::<ShortURLs>(body).unwrap() ;
-    let url = format!("url {}", input.url);
+async fn newlink(request: Request) -> Result<serde_json::Value, Error>{
+    let input: ShortURLs = request.payload().unwrap_or_else(|_parse_err| None).unwrap_or_default();
+    print!("Input {:?}", input);
+    // let ( payload, _context )  = event.into_parts(); 
+    // print!(" Payload {}!", payload);
+    // let body = payload["body"].as_str().unwrap() ;
+    // let input = serde_json::from_str::<ShortURLs>(&event.payload.to_string()).unwrap() ;
+    // //let url = format!("url {}", input.url);
     let short_url = format!("{}", nanoid!(9, &ALPHA_NUMERIC));
     Ok(json!({
         "statusCode": 200,
-        "body": { "shortenUrl": short_url },
+        "body": { "url": input.url, "shortenUrl": short_url },
     }))
     //     Ok(Output {
     //     url: url,
