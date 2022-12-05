@@ -38,7 +38,7 @@ data "aws_s3_bucket_object" "newlink_sha256" {
 resource "aws_lambda_function" "newlink_lambda" {
   depends_on = [
     aws_s3_object.newlink_folder,
-    newlink_sha256
+    aws_s3_object.newlink_sha256
   ]
   function_name = "newlink"
   memory_size = 128

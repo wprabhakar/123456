@@ -39,7 +39,7 @@ data "aws_s3_object" "getlink_sha256" {
 resource "aws_lambda_function" "getlink_lambda" {
   depends_on = [
     aws_s3_object.getlink_folder,
-    newlink_sha256
+    aws_s3_object.newlink_sha256
   ]
   function_name = "getlink"
   memory_size = 128
