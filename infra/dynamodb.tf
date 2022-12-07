@@ -11,9 +11,10 @@ resource "aws_dynamodb_table" "terraform-lock" {
 
 resource "aws_dynamodb_table" "shorturls_table" {
  name = "shorturls-table"
- billing_mode = "PAY_PER_REQUEST"
-#  read_capacity= "1"
-#  write_capacity= "1"
+#  billing_mode = "PAY_PER_REQUEST"
+ billing_mode   = "PROVISIONED"
+ read_capacity  = 1
+ write_capacity = 1
  attribute {
   name = "url"
   type = "S"
@@ -26,8 +27,8 @@ resource "aws_dynamodb_table" "shorturls_table" {
  global_secondary_index {
     name               = "slink_gsi"
     hash_key           = "slink"
-    # write_capacity     = 1
-    # read_capacity      = 1
+    read_capacity      = 100
+    write_capacity     = 1
     projection_type    = "ALL"
   }
 }
