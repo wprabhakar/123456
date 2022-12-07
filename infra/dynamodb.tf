@@ -29,6 +29,5 @@ resource "aws_dynamodb_table" "shorturls_table" {
     # write_capacity     = 1
     # read_capacity      = 1
     projection_type    = "ALL"
-    non_key_attributes = ["UserId"]
   }
 }
