@@ -30,7 +30,7 @@ resource "aws_iam_role_policy" "dynamodb-lambda-policy" {
         {
            "Effect" : "Allow",
            "Action" : ["dynamodb:*"],
-           "Resource" : "${aws_dynamodb_table.shorturls_table.arn}"
+           "Resource" : [ "${aws_dynamodb_table.shorturls_table.arn}", "${aws_dynamodb_table.shorturls_table.arn}/index/*" ]
         }
       ]
    })
