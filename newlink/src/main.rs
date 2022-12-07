@@ -145,7 +145,7 @@ async fn main() -> Result<(), Error> {
 
 pub async fn newlink(client: &aws_sdk_dynamodb::Client, table_name: String, request: Request) -> Result<serde_json::Value, dynamodbError>{
     let input: ShortURL = request.payload().unwrap_or_else(|_parse_err| None).unwrap_or_default();
-    print!("*Payload {:?}", input);
+    print!("Payload {:?}", input);
     if input.url.is_empty() == true {
         Ok(json!({"error": "missing url" }))
     }

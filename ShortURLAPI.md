@@ -8,6 +8,7 @@ Create a bucket to store terraform state => waltergun51-terraform-remote-state-o
 cd infra
 terraform init
 terraform destroy
+terraform init -lock=false
 terraform apply -lock=false
 # Ignore following errors - as the services are not found in S3 
 │ Error: error creating Lambda Function (1): InvalidParameterValueException: Error occurred while GetObject. S3 Error Code: NoSuchKey. S3 Error Message: The specified key does not exist.
