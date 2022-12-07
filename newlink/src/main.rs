@@ -1,4 +1,7 @@
 use aws_config::meta::region::RegionProviderChain;
+use http::Uri;
+use aws_smithy_http::endpoint::Endpoint;
+
 use lambda_http::{service_fn, Request, RequestExt, Error};
 use serde::{Serialize, Deserialize};
 use nanoid::nanoid;
@@ -30,9 +33,7 @@ use aws_sdk_dynamodb::{
     },
     Client, Error as dynamodbError
 };
-use http::Uri;
-use aws_smithy_http::endpoint::Endpoint;
-
+/*
 async fn create_table_if_not_exists(client: &Client, table_name: &str) -> Result<(), dynamodbError> 
 {
     let res = client.list_tables().send().await?;
@@ -90,7 +91,7 @@ async fn create_table(client: &Client, table_name: &str) -> Result<(), dynamodbE
         .await?;
     Ok(())
 }
-
+ */
 
 pub async fn add_item(client: &Client, item: &ShortURLItem, table_name: &str) -> Result<(), dynamodbError> {
     let request = client
@@ -127,49 +128,8 @@ pub async fn get_slink ( client: &Client, table_name: &str, url: &str) -> Result
     }
 }
 
-// //DYNAMODB_ENDPOINT = arn:aws:dynamodb:ap-southeast-1:226380007257:table
-// #[derive(Debug, Envconfig)]
-// struct Config {
-//     #[envconfig(from = "AWS_DEFAULT_REGION", default = "ap-southeast-1")]
-//     pub region: String,
-
-//     #[envconfig(from = "DYNAMODB_TABLE_NAME", default = "shorturls-table")]
-//     pub table_name: String,
-
-//     #[envconfig(from = "DYNAMODB_ENDPOINT", default = "http://localhost:8000")]
-//     pub endpoint: Option<String>,
-// }
-
-// async fn create_dynamodb_client(config: Config) -> Client {
-//     match config.endpoint {
-//         None => {
-//             let aws_cfg = aws_config::load_from_env().await;
-//             Client::new(&aws_cfg)
-//         }
-//         Some(endpoint) => {
-//             let dynamodb_uri = endpoint.parse().unwrap();
-//             let dynamodb_cfg = aws_sdk_dynamodb::Config::builder()
-//                 .region(Region::new(config.region))
-//                 .endpoint_resolver(Endpoint::immutable(dynamodb_uri))
-//                 .credentials_provider(default_provider().await)
-//                 .build();
-//             Client::from_conf(dynamodb_cfg)
-//         }
-//     }
-// }
-
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    // let config: Config =
-    // Config::init_from_env().expect("The config must init from the environment variables");
-    // let endpoint = Endpoint::immutable(Uri::from_static("http://localhost:8000"));
-    // let conf = aws_config::from_env().endpoint_resolver(endpoint).load().await;
-    // let client = aws_sdk_dynamodb::Client::new(&conf);
-    // let region_provider = RegionProviderChain::default_provider().or_else("ap-southeast-1");
-    // let config = aws_config::from_env().region(region_provider).load().await;
-    // let client = Client::new(&config);
-    // let config = aws_config::from_env().load().await;
-    // let client = aws_sdk_dynamodb::Client::new(&config);
 
     // let endpoint = Endpoint::immutable(Uri::from_static("http://localhost:8000"));
     // let conf = aws_config::from_env().endpoint_resolver(endpoint).load().await;
@@ -185,7 +145,7 @@ async fn main() -> Result<(), Error> {
 
 pub async fn newlink(client: &aws_sdk_dynamodb::Client, table_name: String, request: Request) -> Result<serde_json::Value, dynamodbError>{
     let input: ShortURL = request.payload().unwrap_or_else(|_parse_err| None).unwrap_or_default();
-    print!("*Payload {:?}", input);
+    print!("Payload {:?}", input);
     if input.url.is_empty() == true {
         Ok(json!({"error": "missing url" }))
     }

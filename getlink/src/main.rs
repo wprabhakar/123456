@@ -44,7 +44,7 @@ pub async fn get_url ( client: &Client, table_name: &str, slink: &str) -> Result
 async fn getlink(client: &aws_sdk_dynamodb::Client, table_name: String, event: Request) -> Result<Response<Body>, Error> {
     let ( payload, _context )  = event.into_parts(); 
     let slink = payload.uri.path().strip_prefix("/").unwrap().trim_end_matches("/");
-    print!("path {:?}", slink) ;
+    print!("Path {:?}", slink) ;
 
     let res = get_url(&client, &table_name, slink).await?;
     if res.url == "".to_string() {
@@ -74,3 +74,4 @@ async fn main() -> Result<(), Error>  {
     lambda_http::run(service_fn(|event: Request| getlink(&client, table_name.clone(), event))).await?;
     Ok(())
 }
+
