@@ -1,5 +1,8 @@
 ![Diagram of the <shorturl_api> architecture.](./images/architecture.png)
 
+# Prerequisites
+Create a bucket to store terraform state => waltergun51-terraform-remote-state-one	
+
 # Installation - For shorturl service
 ```
 cd infra
