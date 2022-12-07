@@ -191,7 +191,7 @@ pub async fn newlink(client: &aws_sdk_dynamodb::Client, table_name: String, requ
     }
     else
     {
-        create_table_if_not_exists(&client, &table_name).await?;
+//        create_table_if_not_exists(&client, &table_name).await?;
         let res = get_slink(&client, &table_name, &input.url).await?;
         print!("{res:?}");
         if res.slink == "".to_string() {
