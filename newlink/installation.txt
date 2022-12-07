@@ -17,7 +17,12 @@ aws lambda create-function --function-name rustTest \
   --environment Variables={RUST_BACKTRACE=1} \
   --tracing-config Mode=Active
 
-
+aws dynamodb create-table \
+    --table-name shorturls-table \
+    --attribute-definitions AttributeName=url,AttributeType=S AttributeName=slink,AttributeType=S \
+    --key-schema AttributeName=url,KeyType=HASH AttributeName=slink,KeyType=RANGE \
+    --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1\
+    --endpoint-url http://localhost:8000
 
 cargo build --release --target x86_64-unknown-linux-musl
 
@@ -29,7 +34,7 @@ cargo install cross
 zip -r9 -j bootstrap.zip ./target/x86_64-unknown-linux-gnu/release/bootstrap
 
 
-curl -X POST https://mbmzl9efbh.execute-api.ap-southeal": "http://google.com"}'  -H 'Content-Type: application/json'
+curl -X POST https://uc79baxnmk.execute-api.ap-southeast-1.amazonaws.com/newlink -d '{ "url": "http://google.com"}'  -H 'Content-Type: application/json'
 
 
 Create Bucket to store terraform state file
@@ -40,3 +45,7 @@ aws s3api create-bucket --create-bucket-configuration LocationConstraint=ap-sout
 }
 
 
+
+Attache readonly policy to iam_for_lambda role => AmazonS3ReadOnlyAccess
+
+https://awslabs.github.io/aws-lambda-rust-runtime/lambda_http/struct.Response.html
