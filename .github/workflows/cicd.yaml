@@ -1,4 +1,4 @@
-name: newlink
+name: shorturls
 
 on:
   push:
