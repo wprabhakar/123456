@@ -23,5 +23,12 @@ resource "aws_dynamodb_table" "shorturls_table" {
   type = "S"
  }
  hash_key  = "url"
- range_key = "slink"
+ global_secondary_index {
+    name               = "slink_gsi"
+    hash_key           = "slink"
+    # write_capacity     = 1
+    # read_capacity      = 1
+    projection_type    = "ALL"
+    non_key_attributes = ["UserId"]
+  }
 }
