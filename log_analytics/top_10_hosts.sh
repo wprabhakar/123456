@@ -1,5 +1,7 @@
 #!/bin/bash
 INPUT_FILE=../test.log
+#cat ${INPUT_FILE} | grep "GET \|POST \|PUT \|OPTION \|CONNECT \|HEAD \|PATCH \|DELETE \|TRACE \|PROPFIND " > ../http_requests.log
+
 OUTPUT_FILE=../output.log
 START_TIME="2019-06-10 00:00:00"
 END_TIME="2019-06-19 23:59:59"
@@ -18,9 +20,9 @@ do
   then
    break ;
   fi
-  echo "$dt $dtFormatted $st $et"
+  # echo "$dt $dtFormatted $st $et"
   echo "$line" >> ${OUTPUT_FILE}
-done < ${INPUT_FILE}
+done < ../http_requests.log
 echo "Created ${OUTPUT_FILE}"
 echo "Top 10 Hosts"
 cat ${OUTPUT_FILE} | awk '{print $1}' | sort | uniq -c | sort -r | head -n 10
