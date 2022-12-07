@@ -3,6 +3,7 @@ INPUT_FILE=../test.log
 #cat ${INPUT_FILE} | grep "GET \|POST \|PUT \|OPTION \|CONNECT \|HEAD \|PATCH \|DELETE \|TRACE \|PROPFIND " > ../http_requests.log
 
 OUTPUT_FILE=../output.log
+rm ${OUTPUT_FILE}
 START_TIME="2019-06-10 00:00:00"
 END_TIME="2019-06-19 23:59:59"
 FMT="+%Y%m%d%H%M%S"
