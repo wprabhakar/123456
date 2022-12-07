@@ -74,3 +74,4 @@ async fn main() -> Result<(), Error>  {
     lambda_http::run(service_fn(|event: Request| getlink(&client, table_name.clone(), event))).await?;
     Ok(())
 }
+
