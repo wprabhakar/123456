@@ -1,6 +1,6 @@
 #!/bin/bash
 INPUT_FILE=../test.log
-#cat ${INPUT_FILE} | grep "GET \|POST \|PUT \|OPTION \|CONNECT \|HEAD \|PATCH \|DELETE \|TRACE \|PROPFIND " > ../http_requests.log
+cat ${INPUT_FILE} | grep "GET \|POST \|PUT \|OPTION \|CONNECT \|HEAD \|PATCH \|DELETE \|TRACE \|PROPFIND " > ../http_requests.log
 
 OUTPUT_FILE=../output.log
 rm ${OUTPUT_FILE}
